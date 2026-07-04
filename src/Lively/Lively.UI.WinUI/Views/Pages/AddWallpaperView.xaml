@@ -85,6 +85,16 @@
                     <FontIcon Glyph="&#xEB9F;" />
                 </controls:SettingsCard.HeaderIcon>
             </controls:SettingsCard>
+
+            <controls:SettingsCard
+                x:Uid="AddWallpaperFolderBrowse"
+                Margin="0,2.5,0,0"
+                Command="{Binding BrowseFolderCommand}"
+                IsClickEnabled="True">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xEC50;" />
+                </controls:SettingsCard.HeaderIcon>
+            </controls:SettingsCard>
             <!--<InfoBar
                 IsClosable="False"
                 IsOpen="True"
