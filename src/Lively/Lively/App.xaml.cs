@@ -20,6 +20,7 @@ using Lively.Models.Enums;
 using Lively.Models.Services;
 using Lively.RPC;
 using Lively.Services;
+using Lively.Services;
 using Lively.ViewModels;
 using Lively.Views.WindowMsg;
 using Microsoft.Extensions.DependencyInjection;
@@ -121,6 +122,7 @@ namespace Lively
                 Services.GetRequiredService<WndProcMsgWindow>().Show();
                 Services.GetRequiredService<RawInputMsgWindow>().Show();
                 Services.GetRequiredService<IPlayback>().Start();
+                Services.GetRequiredService<WallpaperAutoChanger>().Start();
                 Services.GetRequiredService<ISystray>();
             }
             catch (Exception ex)
@@ -239,6 +241,7 @@ namespace Lively
                 .AddSingleton<UserSettingsServer>()
                 .AddSingleton<CommandsServer>()
                 .AddSingleton<AppUpdateServer>()
+                .AddSingleton<WallpaperAutoChanger>()
                 .AddSingleton<IResourceService, ResourceService>()
                 .AddSingleton<IWindowService, WindowService>()
                 // Transient

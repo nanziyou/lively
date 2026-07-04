@@ -1,0 +1,21 @@
+schema: spec-driven
+
+context: |
+  技术栈：C# (.NET 9 + net472), WPF (后台进程), WinUI 3 (前端 UI)
+  项目：Lively Wallpaper — Windows 动态壁纸应用
+  架构：多进程 — Lively.exe (WPF 核心/托盘) + Lively.UI.WinUI.exe (WinUI 3 界面) + 多个 Player 子进程
+  文档语言：中文
+
+rules:
+  proposal:
+    - 使用中文撰写
+    - 控制在 1 页以内
+  design:
+    - 使用中文撰写
+    - 引用具体的类名、方法名和文件路径
+  specs:
+    - 使用中文撰写
+    - 每个 capability 一个 spec 文件
+  tasks:
+    - 使用中文撰写
+    - 每个 task 应在 2 小时内可完成

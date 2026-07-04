@@ -69,6 +69,48 @@
                             </controls:SettingsCard>
                         </controls:SettingsExpander.Items>
                     </controls:SettingsExpander>
+
+                    <controls:SettingsExpander x:Uid="WallpaperAutoChangeInterval" IsExpanded="True">
+                        <controls:SettingsExpander.HeaderIcon>
+                            <FontIcon Glyph="&#xE916;" />
+                        </controls:SettingsExpander.HeaderIcon>
+                        <ComboBox MinWidth="{StaticResource SettingActionControlMinWidth}" SelectedIndex="{Binding SelectedWallpaperChangeIntervalIndex, Mode=TwoWay}">
+                            <ComboBoxItem x:Uid="TextOff" />
+                            <ComboBoxItem>5 秒</ComboBoxItem>
+                            <ComboBoxItem>10 秒</ComboBoxItem>
+                            <ComboBoxItem>30 秒</ComboBoxItem>
+                            <ComboBoxItem>1 分钟</ComboBoxItem>
+                            <ComboBoxItem>5 分钟</ComboBoxItem>
+                            <ComboBoxItem>15 分钟</ComboBoxItem>
+                            <ComboBoxItem>30 分钟</ComboBoxItem>
+                            <ComboBoxItem>1 小时</ComboBoxItem>
+                            <ComboBoxItem x:Uid="TextCustom" />
+                        </ComboBox>
+                        <controls:SettingsExpander.Items>
+                            <controls:SettingsCard Visibility="{Binding IsCustomInterval, Converter={StaticResource VisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <NumberBox
+                                        MinWidth="120"
+                                        Maximum="86400"
+                                        Minimum="0"
+                                        SmallChange="5"
+                                        SpinButtonPlacementMode="Compact"
+                                        Text="{Binding WallpaperChangeIntervalCustom, Mode=TwoWay}" />
+                                    <TextBlock VerticalAlignment="Center" Text="秒" />
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </controls:SettingsExpander.Items>
+                    </controls:SettingsExpander>
+
+                    <controls:SettingsCard x:Uid="WallpaperAutoChangeOrder">
+                        <controls:SettingsCard.HeaderIcon>
+                            <FontIcon Glyph="&#xE14C;" />
+                        </controls:SettingsCard.HeaderIcon>
+                        <ComboBox MinWidth="{StaticResource SettingActionControlMinWidth}" SelectedIndex="{Binding SelectedWallpaperChangeOrderIndex, Mode=TwoWay}">
+                            <ComboBoxItem x:Uid="TextSequential" />
+                            <ComboBoxItem x:Uid="TextRandom" />
+                        </ComboBox>
+                    </controls:SettingsCard>
                     <InfoBar
                         x:Uid="IconsHidden"
                         Margin="0,0,0,0"

@@ -287,6 +287,8 @@ namespace Lively.Grpc.Client
                     }
                 },
                 RestartAfterLockscreen = settings.IsRestartAfterLockscreen,
+                WallpaperChangeInterval = settings.WallpaperChangeInterval,
+                WallpaperChangeOrder = (Grpc.Common.Proto.Settings.WallpaperChangeOrder)((int)settings.WallpaperChangeOrder),
             };
         }
 
@@ -403,6 +405,8 @@ namespace Lively.Grpc.Client
                         settings.SelectedAudioOutputDisplay.WorkingArea.Height),
                 },
                 IsRestartAfterLockscreen = settings.RestartAfterLockscreen,
+                WallpaperChangeInterval = settings.WallpaperChangeInterval,
+                WallpaperChangeOrder = (Lively.Models.Enums.WallpaperChangeOrder)settings.WallpaperChangeOrder,
             };
         }
 

@@ -67,6 +67,9 @@ namespace Lively.UI.Shared.ViewModels
             CefDiskCache = userSettings.Settings.CefDiskCache;
             SelectedWallpaperStreamQualityIndex = (int)userSettings.Settings.StreamQuality;
             DetectStreamWallpaper = userSettings.Settings.AutoDetectOnlineStreams;
+            SelectedWallpaperChangeIntervalIndex = IntervalToIndex(userSettings.Settings.WallpaperChangeInterval);
+            WallpaperChangeIntervalCustom = userSettings.Settings.WallpaperChangeInterval;
+            SelectedWallpaperChangeOrderIndex = (int)userSettings.Settings.WallpaperChangeOrder;
             // AudioDevices is populated only when IsShowAudioDevices is true for better UX.
         }
 
@@ -141,6 +144,66 @@ namespace Lively.UI.Shared.ViewModels
 
         [ObservableProperty]
         private bool isDesktopIconsHidden;
+
+        // Preset intervals: 0=off, 1=5s, 2=10s, 3=30s, 4=1min, 5=5min, 6=15min, 7=30min, 8=1h, 9=custom
+        private static readonly int[] PresetIntervals = [0, 5, 10, 30, 60, 300, 900, 1800, 3600, -1];
+
+        private int IntervalToIndex(int seconds)
+        {
+            for (int i = 0; i < PresetIntervals.Length - 1; i++)
+                if (PresetIntervals[i] == seconds) return i;
+            return PresetIntervals.Length - 1; // custom
+        }
+
+        private int _selectedWallpaperChangeIntervalIndex;
+        public int SelectedWallpaperChangeIntervalIndex
+        {
+            get => _selectedWallpaperChangeIntervalIndex;
+            set
+            {
+                var seconds = value < PresetIntervals.Length - 1 ? PresetIntervals[value] : WallpaperChangeIntervalCustom;
+                if (seconds <= 0 && value > 0) seconds = WallpaperChangeIntervalCustom;
+                if (userSettings.Settings.WallpaperChangeInterval != seconds)
+                {
+                    userSettings.Settings.WallpaperChangeInterval = seconds;
+                    UpdateSettingsConfigFile();
+                }
+                SetProperty(ref _selectedWallpaperChangeIntervalIndex, value);
+                OnPropertyChanged(nameof(IsCustomInterval));
+            }
+        }
+
+        private int _wallpaperChangeIntervalCustom;
+        public int WallpaperChangeIntervalCustom
+        {
+            get => _wallpaperChangeIntervalCustom;
+            set
+            {
+                if (userSettings.Settings.WallpaperChangeInterval != value)
+                {
+                    userSettings.Settings.WallpaperChangeInterval = value;
+                    UpdateSettingsConfigFile();
+                }
+                SetProperty(ref _wallpaperChangeIntervalCustom, value);
+            }
+        }
+
+        private int _selectedWallpaperChangeOrderIndex;
+        public int SelectedWallpaperChangeOrderIndex
+        {
+            get => _selectedWallpaperChangeOrderIndex;
+            set
+            {
+                if (userSettings.Settings.WallpaperChangeOrder != (WallpaperChangeOrder)value)
+                {
+                    userSettings.Settings.WallpaperChangeOrder = (WallpaperChangeOrder)value;
+                    UpdateSettingsConfigFile();
+                }
+                SetProperty(ref _selectedWallpaperChangeOrderIndex, value);
+            }
+        }
+
+        public bool IsCustomInterval => SelectedWallpaperChangeIntervalIndex == PresetIntervals.Length - 1;
 
         private bool _mouseMoveOnDesktop;
         public bool MouseMoveOnDesktop

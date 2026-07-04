@@ -1,4 +1,5 @@
 ﻿using Lively.Common;
+using Lively.Common.Extensions;
 using Lively.Common.Factories;
 using Lively.Common.Helpers;
 using Lively.Common.Services;
@@ -350,15 +351,7 @@ namespace Lively.Services
             }
 
             //Fisher-Yates shuffle
-            int n = dir.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                var value = dir[k];
-                dir[k] = dir[n];
-                dir[n] = value;
-            }
+            dir.Shuffle(rng);
 
             for (int i = 0; i < dir.Count; i++)
             {
