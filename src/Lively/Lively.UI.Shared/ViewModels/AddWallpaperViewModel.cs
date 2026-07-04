@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Lively.Common;
+using Lively.Common.Extensions;
+using Lively.Models.Enums;
 using Lively.Common.Services;
 using Lively.Grpc.Client;
 using Lively.Models;
@@ -8,6 +10,7 @@ using Lively.UI.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using UAC = UACHelper.UACHelper;
 
@@ -87,5 +90,44 @@ namespace Lively.UI.Shared.ViewModels
         public void AddWallpaperFile(string path) => OnRequestAddFile?.Invoke(this, new List<string>() { path });
 
         public void AddWallpaperFiles(List<string> filePaths) => OnRequestAddFile?.Invoke(this, filePaths);
+
+        private RelayCommand _browseFolderCommand;
+        public RelayCommand BrowseFolderCommand => _browseFolderCommand ??= new RelayCommand(async () => await FolderBrowseAction());
+
+        private async Task FolderBrowseAction()
+        {
+            var folder = await fileService.PickFolderAsync(["*"]);
+            if (string.IsNullOrEmpty(folder))
+                return;
+
+            var files = await Task.Run(() => ScanDirectoryForWallpapers(folder));
+            if (files.Count > 0)
+                AddWallpaperFiles(files);
+        }
+
+        private static List<string> ScanDirectoryForWallpapers(string rootPath)
+        {
+            return Directory.EnumerateFiles(rootPath, "*.*", SearchOption.AllDirectories)
+                .Where(f => IsWallpaperFile(f) && !IsHiddenOrSystem(f))
+                .ToList();
+        }
+
+        private static bool IsWallpaperFile(string path) =>
+            FileTypes.GetFileType(path).IsMediaWallpaper() || FileTypes.IsWallpaperPackageExtension(path);
+
+        private static bool IsHiddenOrSystem(string path)
+        {
+            try
+            {
+                var dir = Path.GetDirectoryName(path);
+                if (dir != null)
+                {
+                    var attr = new DirectoryInfo(dir).Attributes;
+                    return (attr & (FileAttributes.Hidden | FileAttributes.System)) != 0;
+                }
+            }
+            catch (UnauthorizedAccessException) { return true; }
+            return false;
+        }
     }
 }

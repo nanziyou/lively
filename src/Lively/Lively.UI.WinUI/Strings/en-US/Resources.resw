@@ -159,6 +159,9 @@ The main purpose of Lively's screensavers is to add another layer of customizati
   <data name="AddWallpaperFileBrowse.Header" xml:space="preserve">
     <value>Choose a file</value>
   </data>
+  <data name="AddWallpaperFolderBrowse.Header" xml:space="preserve">
+    <value>Choose a folder</value>
+  </data>
   <data name="DescriptionAppRules" xml:space="preserve">
     <value>Wallpaper playback behaviour based on running application</value>
   </data>
@@ -600,6 +603,9 @@ If still not working, close &amp; start Lively again/restart windows.
   </data>
   <data name="AddWallpaperFileBrowse.Description" xml:space="preserve">
     <value>Set all supported file types as wallpaper</value>
+  </data>
+  <data name="AddWallpaperFolderBrowse.Description" xml:space="preserve">
+    <value>Import all supported wallpapers from a folder and its subfolders</value>
   </data>
   <data name="EnterUrl.Description" xml:space="preserve">
     <value>Set the web page of the URL you entered as wallpaper</value>

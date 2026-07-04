@@ -159,6 +159,9 @@ Lively 的屏幕保护程序的主要目的是为您的电脑增加另一层个�
   <data name="AddWallpaperFileBrowse.Header" xml:space="preserve">
     <value>选择一个文件</value>
   </data>
+  <data name="AddWallpaperFolderBrowse.Header" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
   <data name="DescriptionAppRules" xml:space="preserve">
     <value>根据正在运行的应用程序设置壁纸播放行为</value>
   </data>
@@ -600,6 +603,9 @@ Windows 7 系统只需设置“调整为最佳外观”&amp; 并应用。
   </data>
   <data name="AddWallpaperFileBrowse.Description" xml:space="preserve">
     <value>将所有支持的文件类型设置为壁纸。</value>
+  </data>
+  <data name="AddWallpaperFolderBrowse.Description" xml:space="preserve">
+    <value>导入文件夹及其子文件夹中所有支持的壁纸</value>
   </data>
   <data name="EnterUrl.Description" xml:space="preserve">
     <value>将您输入的URL的网页设置为墙纸。</value>
