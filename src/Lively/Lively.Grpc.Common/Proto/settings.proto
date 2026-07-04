@@ -84,6 +84,8 @@ message SettingsDataModel {
     GetScreensResponse selected_audio_output_display = 72;
     string visualizer_audio_device_id = 73;
     bool restart_after_lockscreen = 74;
+    int32 wallpaper_change_interval = 75;
+    WallpaperChangeOrder wallpaper_change_order = 76;
 }
 
 message AppRulesSettings {
@@ -257,4 +259,9 @@ enum DisplayAudioMode
 {
     selection = 0;
     all_ = 1;
+}
+enum WallpaperChangeOrder
+{
+    sequential = 0;
+    shuffle = 1;
 }

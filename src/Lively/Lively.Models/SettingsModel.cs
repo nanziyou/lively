@@ -140,6 +140,9 @@ namespace Lively.Models
         public DisplayMonitor SelectedAudioOutputDisplay { get; set; }
         public bool IsRestartAfterLockscreen { get; set; }
 
+        public int WallpaperChangeInterval { get; set; }
+        public WallpaperChangeOrder WallpaperChangeOrder { get; set; }
+
         public SettingsModel()
         {
             SavedURL = "https://www.youtube.com/watch?v=aqz-KE-bpKQ";
@@ -227,6 +230,8 @@ namespace Lively.Models
             VisualizerAudioDeviceId = string.Empty;
             DisplayAudioOutput = DisplayAudioMode.all;
             IsRestartAfterLockscreen = false;
+            WallpaperChangeInterval = 0;
+            WallpaperChangeOrder = WallpaperChangeOrder.sequential;
         }
     }
 }

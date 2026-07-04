@@ -204,6 +204,8 @@ namespace Lively.RPC
             userSettings.Settings.DisplayAudioOutput = (Models.Enums.DisplayAudioMode)req.DisplayAudioOutput;
             userSettings.Settings.SelectedAudioOutputDisplay = displayManager.DisplayMonitors.FirstOrDefault(x => req.SelectedAudioOutputDisplay.DeviceId == x.DeviceId) ?? displayManager.PrimaryDisplayMonitor;
             userSettings.Settings.IsRestartAfterLockscreen = req.RestartAfterLockscreen;
+            userSettings.Settings.WallpaperChangeInterval = req.WallpaperChangeInterval;
+            userSettings.Settings.WallpaperChangeOrder = (Lively.Models.Enums.WallpaperChangeOrder)((int)req.WallpaperChangeOrder);
 
             try
             {
@@ -344,6 +346,8 @@ namespace Lively.RPC
                     }
                 },
                 RestartAfterLockscreen = settings.IsRestartAfterLockscreen,
+                WallpaperChangeInterval = settings.WallpaperChangeInterval,
+                WallpaperChangeOrder = (Grpc.Common.Proto.Settings.WallpaperChangeOrder)settings.WallpaperChangeOrder,
             };
             return Task.FromResult(resp);
         }

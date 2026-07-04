@@ -1298,4 +1298,25 @@ If still not working, close &amp; start Lively again/restart windows.
   <data name="RestartWallpaperAfterLockscreen.Header" xml:space="preserve">
     <value>Restart wallpaper when returning from lock screen</value>
   </data>
+  <data name="WallpaperAutoChangeInterval.Header" xml:space="preserve">
+    <value>Auto change interval</value>
+  </data>
+  <data name="WallpaperAutoChangeInterval.Description" xml:space="preserve">
+    <value>Set how often the wallpaper changes automatically (0 = disabled)</value>
+  </data>
+  <data name="WallpaperAutoChangeOrder.Header" xml:space="preserve">
+    <value>Change order</value>
+  </data>
+  <data name="WallpaperAutoChangeOrder.Description" xml:space="preserve">
+    <value>Sequential or random wallpaper cycling</value>
+  </data>
+  <data name="TextSequential.Content" xml:space="preserve">
+    <value>Sequential</value>
+  </data>
+  <data name="TextRandom.Content" xml:space="preserve">
+    <value>Shuffle</value>
+  </data>
+  <data name="TextCustom.Content" xml:space="preserve">
+    <value>Custom</value>
+  </data>
 </root>
