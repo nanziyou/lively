@@ -12,12 +12,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using ImageMagick;
 using UAC = UACHelper.UACHelper;
 
 namespace Lively.UI.Shared.ViewModels
 {
     public partial class AddWallpaperViewModel : ObservableObject
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         public event EventHandler<List<string>> OnRequestAddFile;
         public event EventHandler<string> OnRequestAddUrl;
         public event EventHandler OnRequestOpenCreate;
@@ -48,6 +50,9 @@ namespace Lively.UI.Shared.ViewModels
         private string errorMessage;
 
         public bool IsElevated { get; }
+
+        [ObservableProperty]
+        private bool excludePortrait;
 
         private RelayCommand _browseWebCommand;
         public RelayCommand BrowseWebCommand => _browseWebCommand ??= new RelayCommand(WebBrowseAction);
@@ -100,16 +105,59 @@ namespace Lively.UI.Shared.ViewModels
             if (string.IsNullOrEmpty(folder))
                 return;
 
-            var files = await Task.Run(() => ScanDirectoryForWallpapers(folder));
+            Logger.Info($"FolderBrowse: folder={folder}, excludePortrait={ExcludePortrait}");
+            var files = await ScanDirectoryForWallpapersAsync(folder, ExcludePortrait);
+            Logger.Info($"FolderBrowse: found {files.Count} files after filtering");
             if (files.Count > 0)
                 AddWallpaperFiles(files);
         }
 
-        private static List<string> ScanDirectoryForWallpapers(string rootPath)
+        private static async Task<List<string>> ScanDirectoryForWallpapersAsync(string rootPath, bool excludePortrait)
         {
-            return Directory.EnumerateFiles(rootPath, "*.*", SearchOption.AllDirectories)
+            var allFiles = Directory.EnumerateFiles(rootPath, "*.*", SearchOption.AllDirectories)
                 .Where(f => IsWallpaperFile(f) && !IsHiddenOrSystem(f))
                 .ToList();
+
+            if (!excludePortrait || allFiles.Count == 0)
+                return allFiles;
+
+            var result = new List<string>();
+            foreach (var f in allFiles)
+            {
+                if (!await IsPortraitAsync(f))
+                    result.Add(f);
+            }
+            return result;
+        }
+
+        private static async Task<bool> IsPortraitAsync(string filePath)
+        {
+            try
+            {
+                var info = new MagickImageInfo(filePath);
+                if (info.Height > info.Width)
+                {
+                    Logger.Info($"Portrait IMAGE excluded: {Path.GetFileName(filePath)} ({info.Width}x{info.Height})");
+                    return true;
+                }
+                return false;
+            }
+            catch { }
+
+            try
+            {
+                var storageFile = await Windows.Storage.StorageFile.GetFileFromPathAsync(filePath);
+                var props = await storageFile.Properties.GetVideoPropertiesAsync();
+                Logger.Info($"Portrait check video: {Path.GetFileName(filePath)} {props.Width}x{props.Height}");
+                if (props.Width > 0 && props.Height > 0 && props.Height > props.Width)
+                {
+                    Logger.Info($"Portrait VIDEO excluded: {Path.GetFileName(filePath)} ({props.Width}x{props.Height})");
+                    return true;
+                }
+            }
+            catch { }
+
+            return false;
         }
 
         private static bool IsWallpaperFile(string path) =>
