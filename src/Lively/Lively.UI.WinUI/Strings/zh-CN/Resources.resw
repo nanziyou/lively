@@ -1314,4 +1314,25 @@ Grid 网格：利用网格算法更精准地确定暂停时机</value>
   <data name="ExcludePortrait.Description" xml:space="preserve">
     <value>从文件夹导入时跳过竖屏图片和视频</value>
   </data>
+  <data name="WallpaperAutoChangeInterval.Header" xml:space="preserve">
+    <value>自动切换间隔</value>
+  </data>
+  <data name="WallpaperAutoChangeInterval.Description" xml:space="preserve">
+    <value>设置壁纸自动切换的时间间隔（0 = 关闭）</value>
+  </data>
+  <data name="WallpaperAutoChangeOrder.Header" xml:space="preserve">
+    <value>切换顺序</value>
+  </data>
+  <data name="WallpaperAutoChangeOrder.Description" xml:space="preserve">
+    <value>顺序或随机切换壁纸</value>
+  </data>
+  <data name="TextSequential.Content" xml:space="preserve">
+    <value>顺序</value>
+  </data>
+  <data name="TextRandom.Content" xml:space="preserve">
+    <value>随机</value>
+  </data>
+  <data name="TextCustom.Content" xml:space="preserve">
+    <value>自定义</value>
+  </data>
 </root>
