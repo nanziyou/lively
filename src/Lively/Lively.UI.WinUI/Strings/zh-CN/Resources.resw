@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1307,5 +1307,11 @@ Grid 网格：利用网格算法更精准地确定暂停时机</value>
   </data>
   <data name="RestartWallpaperAfterLockscreen.Header" xml:space="preserve">
     <value>从锁屏返回时重启壁纸</value>
+  </data>
+  <data name="ExcludePortrait.Header" xml:space="preserve">
+    <value>排除竖屏内容</value>
+  </data>
+  <data name="ExcludePortrait.Description" xml:space="preserve">
+    <value>从文件夹导入时跳过竖屏图片和视频</value>
   </data>
 </root>

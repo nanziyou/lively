@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1303,5 +1303,11 @@ If still not working, close &amp; start Lively again/restart windows.
   </data>
   <data name="RestartWallpaperAfterLockscreen.Header" xml:space="preserve">
     <value>Restart wallpaper when returning from lock screen</value>
+  </data>
+  <data name="ExcludePortrait.Header" xml:space="preserve">
+    <value>Exclude portrait</value>
+  </data>
+  <data name="ExcludePortrait.Description" xml:space="preserve">
+    <value>Skip vertical images and videos when importing from folder</value>
   </data>
 </root>

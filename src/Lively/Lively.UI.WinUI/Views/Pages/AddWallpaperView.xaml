@@ -75,7 +75,8 @@
                 Severity="Warning" />
         </Grid>
 
-        <StackPanel Grid.Row="1">
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
             <controls:SettingsCard
                 x:Uid="AddWallpaperFileBrowse"
                 Margin="0,10,0,0"
@@ -94,6 +95,13 @@
                 <controls:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xEC50;" />
                 </controls:SettingsCard.HeaderIcon>
+            </controls:SettingsCard>
+
+            <controls:SettingsCard x:Uid="ExcludePortrait" Margin="0,2.5,0,0">
+                <controls:SettingsCard.HeaderIcon>
+                    <FontIcon Glyph="&#xE71E;" />
+                </controls:SettingsCard.HeaderIcon>
+                <ToggleSwitch IsOn="{Binding ExcludePortrait, Mode=TwoWay}" />
             </controls:SettingsCard>
             <!--<InfoBar
                 IsClosable="False"
@@ -143,6 +151,7 @@
                     <FontIcon Glyph="&#xE76C;" />
                 </controls:SettingsCard.ActionIcon>
             </controls:SettingsCard>
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
