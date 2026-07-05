@@ -52,7 +52,7 @@ namespace Lively.UI.Shared.ViewModels
         public bool IsElevated { get; }
 
         [ObservableProperty]
-        private bool excludePortrait;
+        private bool excludePortrait = true;
 
         private RelayCommand _browseWebCommand;
         public RelayCommand BrowseWebCommand => _browseWebCommand ??= new RelayCommand(WebBrowseAction);
