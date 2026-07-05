@@ -1,0 +1,74 @@
+Lively Wallpaper — Git 工作流总结
+
+分支结构
+========
+  origin/core-separation               ← 官方主线
+    ├── scan-directory-images          ← 功能分支 1: 扫描目录 + 排除竖屏
+    ├── shuffle-wallpaper              ← 功能分支 2: 自动切换壁纸
+    └── combined-build                 ← 合并分支（自己用，cherry-pick 两个功能分支）
+
+PR 流程
+=======
+  1. 从 origin/core-separation 分别创建功能分支
+  2. 每个分支只做一件事，提交干净的功能代码
+  3. 推送到自己的 fork (myfork/branch-name)
+  4. 在 GitHub 上向 rocksdanister/lively 的 core-separation 发起 PR
+  5. csproj 转换这类本地编译改动用 stash，绝不提交到 PR
+
+合并到自己用的分支
+===================
+  首次创建:
+    git checkout -b combined-build origin/core-separation
+    git cherry-pick scan-directory-images
+    git cherry-pick shuffle-wallpaper
+
+  后续有新提交时:
+    git checkout combined-build
+    git cherry-pick scan-directory-images  ← 只捡新增的 commit
+    git cherry-pick shuffle-wallpaper
+
+冲突处理
+========
+  cherry-pick 冲突通常是文件末尾同时添加内容:
+    git checkout --theirs <冲突文件>
+    git add <冲突文件>
+    git cherry-pick --continue
+
+编译同步
+========
+  Windows PowerShell:
+    .\build_release.ps1 -Dev
+
+  WSL:
+    "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" -File build_release.ps1 -Dev
+
+  编译前必须关闭 Lively.exe，否则 DLL 被锁导致 MSB3027 错误
+
+WSL 启动/停止
+==============
+  停止:  "/mnt/c/Windows/System32/cmd.exe" /c "taskkill /im Lively.exe /f"
+  启动:  双击 D:\...\bin\x64\Release\net9.0-windows10.0.18362.0\Lively.exe
+
+注意：cherry-pick 冲突时不要用 --theirs 覆盖整个文件
+====================================================
+  错误做法:
+    git checkout --theirs Resources.resw  ← 会丢掉其他分支的条目！
+
+  正确做法:
+    手动编辑冲突文件，保留两边的 <data> 条目
+    或: git mergetool 用 VS Code 等合并工具解决
+
+多 PR 提交流程
+==============
+  如果有多个独立功能分支（都改过 Resources.resw 等公共文件）:
+
+    1. 先提第一个 PR，等合入主线
+    2. 第一个合入后:
+       git fetch origin
+       git checkout shuffle-wallpaper
+       git rebase origin/core-separation     ← 解决冲突，保持历史干净
+       git push myfork shuffle-wallpaper --force
+    3. 提第二个 PR
+
+  不要同时提多个可能冲突的 PR，后合入的必然有冲突需要自己解决。
+  维护者通常期望你 rebase 到最新主线再提交，而不是让他们帮你解决冲突。
